@@ -7,5 +7,6 @@ namespace TISklep.test
 {
     public class Class
     {
+        double a;
     }
 }
