@@ -1,10 +1,23 @@
-﻿@model IEnumerable<TISklep.Models.Film>
-@{
-   
-}
+﻿@model TISklep.ViewModels.KategoriaViewModel
+
+<title>@ViewData["Title"] - Lista filmów</title>
+
+<table>
+    <tr>
+        @foreach (var film in Model.FilmyTop3Najnowsze)
+            {
+                <td>
+                    <h3>@film.Tytul</h3>
+                    <p>@film.Opis</p>
+                </td>
+            }
+    </tr>
+</table>
+
+
 <div class="tabele m-5">
-    <h1><b>@Model.First().Kategoria.Nazwa</b></h1>
-    <h3>@Model.First().Kategoria.Opis</h3>
+    <h1><b>@Model.Kategoria.Nazwa</b></h1>
+    <h3>@Model.Kategoria.Opis</h3>
     <table>
         <thead>
             <tr>
@@ -15,13 +28,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var film in Model)
+            @foreach (var film in Model.FilmyKategorii)
             {
                 <tr>
                     <td>@film.Tytul</td>
                     <td>@film.Rezyser</td>
                     <td>@film.DataProdukcji.Value.Date.ToString("dd MMMM yyyy")</td>
                     <td>@film.Cena zł</td>
+                    <td>
+                        <a href="@Url.Action("Szczegoly", "Filmy", new { idFilmu=film.Id })">&#128270;</a>
+                    </td>
                 </tr>
             }
         </tbody>
