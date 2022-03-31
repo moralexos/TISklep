@@ -45,5 +45,32 @@ namespace TISklep.Controllers
         {
             return View();
         }
+
+        public IActionResult Wszystkie()
+        {
+            var vm = db.Filmy.ToList();
+            
+            return View(vm);
+
+        }
+        [HttpGet]
+        public IActionResult DodajFilm()
+        {
+            var model = new DodawanieFilmowViewModel();
+            model.Kategorie = db.Kategorie.ToList();
+
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult DodajFilm(DodawanieFilmowViewModel obj)
+        {
+            obj.Film.DataProdukcji = DateTime.Now;
+            db.Filmy.Add(obj.Film);
+            db.SaveChanges();
+
+
+
+            return RedirectToAction("Wszystkie");
+        }
     }
 }

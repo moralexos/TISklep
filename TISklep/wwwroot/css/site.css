@@ -155,3 +155,21 @@ li a {
         padding: 8px 4px;
         text-align: center;
     }
+
+    img{
+        height: 15rem;
+    }
+
+    .pojedynczy-film{
+        list-style-type: none;
+        width: 33%;
+        float: left;
+    }
+
+    .wszystkie-filmy::after{
+        display: block;
+        content:" ";
+        height: 0;
+        visibility: hidden;
+        clear: both;
+    }
