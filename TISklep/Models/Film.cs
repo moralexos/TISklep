@@ -20,7 +20,7 @@ namespace TISklep.Models
 
         public decimal Cena { get; set; }
 
-        public DateTime? DataProdukcji { get; set; }
+        public DateTime? DataDodania { get; set; }
 
         [ForeignKey("Kategoria")]
         public int KategoriaId { get; set; }
@@ -28,6 +28,8 @@ namespace TISklep.Models
         public Kategoria Kategoria { get; set; }
 
         public string Plakat { get; set; }
+
+        public string DlugoscFilmu { get; set; }
 
 
     }

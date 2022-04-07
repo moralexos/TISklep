@@ -1,24 +1,42 @@
 ﻿@model TISklep.ViewModels.DodawanieFilmowViewModel
 
-@using (Html.BeginForm("DodajFilm", "Filmy", FormMethod.Post))
+@using (Html.BeginForm("DodajFilm", "Filmy", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.LabelFor(m => m.Film.Tytul, "Podaj tytuł: ")
-    @Html.TextBoxFor(m => m.Film.Tytul)
-    <br />
-    @Html.LabelFor(m => m.Film.Rezyser, "Podaj rezysera: ")
-    @Html.TextBoxFor(m => m.Film.Rezyser)
-    <br />
-    @Html.LabelFor(m => m.Film.Opis, "Podaj opis: ")
-    @Html.TextAreaFor(m => m.Film.Opis)
-    <br />
-    @Html.LabelFor(m => m.Film.Cena, "Podaj cene: ")
-    @Html.TextBoxFor(m => m.Film.Cena)
-    <br />
-    @foreach (var kategoria in Model.Kategorie)
-    {
-        @Html.RadioButtonFor(m => m.Film.KategoriaId, kategoria.Id)
-        @kategoria.Nazwa
-        <br />
-    }
-    <input type="submit" value="Dodaj do bazy" />
+    <div class="form-group">
+        @Html.LabelFor(m => m.Film.Tytul, "Podaj tytuł: ")
+        @Html.TextBoxFor(m => m.Film.Tytul, new { @required = true, @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Film.Rezyser, "Podaj rezysera: ")
+        @Html.TextBoxFor(m => m.Film.Rezyser, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Film.Opis, "Podaj opis: ")
+        @Html.TextAreaFor(m => m.Film.Opis, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Film.Cena, "Podaj cene: ")
+        @Html.TextBoxFor(m => m.Film.Cena, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Plakat, "Wybierz plakat: ")
+        @Html.TextBoxFor(m => m.Plakat, new { @type = "file", @class = "form-control-file" })
+    </div>
+
+    <div class="form-check">
+        @foreach (var kategoria in Model.Kategorie)
+        {
+            
+                @Html.RadioButtonFor(m => m.Film.KategoriaId, kategoria.Id, new { @class = "form-check-input" })
+                @kategoria.Nazwa
+            <br/>
+        }
+    </div>
+    <div>
+    <input type="submit" value="Dodaj do bazy" class="btn btn-primary" />
+    </div>
 }

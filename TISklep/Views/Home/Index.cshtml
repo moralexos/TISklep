@@ -1,4 +1,18 @@
-﻿@{
+﻿@model TISklep.ViewModels.IndexViewModel
+
+@{
     ViewData["Title"] = "Strona główna";
 }
+<table>
+    <tr>
+        @foreach (var film in Model.FilmyTopNajdluzsze)
+        {
+            <td>
+                <h3>@film.Tytul</h3>
+                <p>@film.Opis</p>
+                <img src="~/content/@film.Plakat" />
+            </td>
+        }
+    </tr>
+</table>
 

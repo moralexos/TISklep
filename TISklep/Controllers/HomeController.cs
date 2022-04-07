@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TISklep.DAL;
+using TISklep.ViewModels;
 
 namespace TISklep.Controllers
 {
@@ -18,10 +19,15 @@ namespace TISklep.Controllers
             this.db = db;
         }
 
+
         public IActionResult Index()
         {
-            var kategorie = db.Kategorie.ToList();
-            return View(kategorie);
+
+            var vm = new IndexViewModel();
+
+            vm.FilmyTopNajdluzsze = db.Filmy.OrderByDescending(x => x.DlugoscFilmu).Take(3).ToList();
+
+            return View(vm);
         }
 
         public IActionResult Privacy()

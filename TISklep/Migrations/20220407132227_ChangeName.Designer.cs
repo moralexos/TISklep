@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TISklep.DAL;
 
 namespace TISklep.Migrations
 {
     [DbContext(typeof(FilmyContext))]
-    partial class FilmyContextModelSnapshot : ModelSnapshot
+    [Migration("20220407132227_ChangeName")]
+    partial class ChangeName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +33,6 @@ namespace TISklep.Migrations
 
                     b.Property<DateTime?>("DataDodania")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("DlugoscFilmu")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("KategoriaId")
                         .HasColumnType("int");
