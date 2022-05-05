@@ -4,14 +4,35 @@
 <table class="table">
     @foreach (var CartItem in Model)
     {
-        <tr>
+        <tr id="row-@CartItem.Film.Id">
             <td>@CartItem.Film.Tytul</td>
-            <td>@CartItem.Ilosc szt.</td>
+            <td id="ilosc-@CartItem.Film.Id">@CartItem.Ilosc szt.</td>
             <td>@CartItem.Wartosc zł</td>
+            <td><a href="#" class="trash" data-id="@CartItem.Film.Id">&#128465;</a></td>
         </tr>
     }
 </table>
 
-<div>
+<div id="cenaCalkowita">
     Razem: @ViewBag.total zł
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(".trash").click(function () {
+            var IdCartItem = $(this).data('id');
+            if (IdCartItem != '') {
+                $.post("/Koszyk/UsunZKoszyka", { "id": IdCartItem }, function (response) {
+                    if (response.ilosc == 0) {
+                        $("#row-" + response.id).fadeOut("slow");
+                    }
+                    else {
+                        $("#ilosc-" + response.id).text(response.ilosc);
+                    }
+                    $("#cenaCalkowita").text("Razem : " + response.wartoscKoszyka + " zł");
+                }
+                );
+            }
+        });
+    </script>
+}
