@@ -19,8 +19,6 @@ namespace TISklep.DAL
 
         public DbSet<Film> Filmy { get; set; }
 
-
-
         public DbSet<Kategoria> Kategorie { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
