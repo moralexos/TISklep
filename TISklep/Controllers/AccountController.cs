@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TISklep.Models.Identity;
+using TISklep.ViewModels;
 
 namespace TISklep.Controllers
 {
@@ -17,36 +18,55 @@ namespace TISklep.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
-
-        public async Task<IActionResult> Zarejestruj()
+        [HttpGet]
+        public async Task<ActionResult> Zarejestruj()
         {
-            var user = await userManager.FindByNameAsync("TestUser");
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Zarejestruj(RegisterViewModel model)
+        {
 
-            if (user == null)
+            if (ModelState.IsValid)
             {
-                AppUser userApp = new AppUser()
+                AppUser user = new AppUser()
                 {
-                    UserName = "TestUser",
-                    Email = "Test@email.com",
-                    FirstName = "Jan",
-                    LastName = "Kowalski",
-                    Password = "test123"
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Password = model.Password
                 };
 
-                var result = await userManager.CreateAsync(userApp, userApp.Password);
+                var result = await userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    ViewBag.message = "Uzytkownik utworzony! \n" + result;
 
-                ViewBag.message = "Uzytkownik utworzony! \n" + result;
+                    await signInManager.SignInAsync(user, false);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    var errorList = result.Errors.ToList();
+                    ViewBag.message = string.Join("\n", errorList.Select(e => e.Description));
+                }
+
             }
-            else
-            {
-                ViewBag.message = "Uzytkownik już istnieje w bazie";
-            }
+            return View(model);
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> Zaloguj()
+        {
             return View();
         }
 
-        public async Task<IActionResult> Zaloguj()
+        [HttpPost]
+        public async Task<IActionResult> Zaloguj(LoginViewModel model)
         {
-            var result = await signInManager.PasswordSignInAsync("TestUser", "test123", false, false);
+            var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
 
             if (result.Succeeded)
             {
@@ -56,9 +76,10 @@ namespace TISklep.Controllers
             else
             {
                 ViewBag.message = result;
+                ModelState.AddModelError("", "Podaj poprawne dane logowania!");
             }
 
-            return View();
+            return View(model);
         }
 
         public async Task<IActionResult> Wyloguj()
@@ -67,7 +88,7 @@ namespace TISklep.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-            public IActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
